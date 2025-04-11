@@ -1,0 +1,93 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Macshop</title>
+    <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+    <link href="{% static 'mainpage/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mainpage/css/main.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static 'mainpage/img/bg.png' %}");
+            background-size: cover;
+            font-family: 'SF Pro Display', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row d-flex align-content-sm-center justify-content-center vh-100">
+        <div class="col-lg-8 d-flex  justify-content-center p-2 ">
+
+
+            <!--                <<<<<<<<<<<<<<<<<< card box  >>>>>>>>>>>>>>> -->
+            <div class="main-bx glow-on-hover d-flex flex-column justify-content-center align-content-center p-sm-5   text-center">
+
+                <!--            <<<<<<<<<<<<<<<<<< logo  >>>>>>>>>>>>>>>>>> -->
+                <div class="brand-logo pb-4 mb-auto">
+                    <img src="{% static 'mainpage/img/logo.png' %}" alt="brand" width="100">
+                </div>
+
+
+                <!--<<<<<<<<<<<<<<<<<<<< head text >>>>>>>>>>>>>>>>>>> -->
+                <!--                <div class="head-text mb-5">-->
+                <!--                    Ro'yxatga olingan<span class="span-text fw-bold "> gadget</span>-->
+
+                <!--                </div>-->
+
+                <!--<<<<<<<<<<<<<<<<<<<<< form  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+
+                <div class="d-flex flex-column">
+                    <div class="head-text text-dark my-4">
+                        {{ product.name }}
+                    </div>
+
+                    <ul class="kafolat p-3">
+                        <ol>Harid sanasi : <span> {{ product.sold_date }}</span></ol>
+                        <ol> SN/IMEI : <span> {{ product.serial_number }}</span></ol>
+                        <ol>Kafolat tugashi : <span>{{ product.get_warranty_end_date|date:"d.m.Y" }}</span></ol>
+                    </ul>
+                </div>
+                <a href="" class="btn btn-primary btn-lg w-100 rounded rounded-5 me-auto">Yana tekshirish</a>
+                <br>
+                <a href="/kafolat/" class="btn btn-outline-secondary mt-3">Bosh sahifaga qaytish</a>
+
+                <div>
+                    <div class="contact-us pt-5">
+                        <a href="https://instagram.com/macshop_uz?igshid=OGQ5ZDc2ODk2ZA==" class="btn btn-contact">
+                            <i class='bx bxl-instagram-alt '></i>
+                        </a>
+
+                        <a href="https://t.me/macshop_uz/" class="btn  btn-contact">
+                            <i class='bx bxl-telegram pe-2'></i>
+                        </a>
+
+                        <a href="https://t.me/macshop_uz/" class="btn  btn-contact">
+                            <i class='bx bx-phone-call'></i>
+                        </a>
+
+                        <a href="https://t.me/macshop_uz/" class="btn  btn-contact">
+                            <i class='bx bxs-info-circle'></i>
+                        </a>
+
+
+                    </div>
+                    <p class="paragraph-text pt-4 mx-auto  w-100">Biz bilan bog'lanish </p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'mainpage/js/bootstrap.bundle.min.js' %}" type="jscript">
+
+</script>
+</body>
+</html>

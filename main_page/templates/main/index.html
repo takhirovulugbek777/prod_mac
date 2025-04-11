@@ -1,0 +1,109 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="Macshop - Qurilmalaringiz kafolatini tekshirish uchun eng ishonchli platforma. Telefonlar, noutbuklar va boshqa elektron qurilmalarning kafolat holatini osongina aniqlang.">
+    <meta name="keywords"
+          content="Macshop, kafolat tekshirish, nasiya savdo, kafolat, texnika tekshirish, Macshop.uz, elektronika, Macshop Uzbekistan">
+    <meta name="author" content="Macshop Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph Meta Tags (Facebook va ijtimoiy tarmoqlar uchun) -->
+    <meta property="og:title" content="Macshop - Qurilmalaringiz kafolatini tekshiring">
+    <meta property="og:description"
+          content="Qurilmalaringiz kafolatini osongina tekshiring. Nasiya savdo haqida ma'lumot oling va ishonchli texnika sotib oling.">
+    <meta property="og:image" content="{% static 'mainpage/img/logo.png' %}">
+    <meta property="og:url" content="https://checkdevice.uz/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Macshop - Qurilmalaringiz kafolatini tekshiring">
+    <meta name="twitter:description"
+          content="Macshop - Qurilmalaringiz kafolat holatini osongina aniqlash uchun platforma. Nasiya savdo haqida bilib oling.">
+    <meta name="twitter:image" content="{% static 'mainpage/img/logo.png' %}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'mainpage/img/favicon.ico' %}" type="image/x-icon">
+
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+    <link href="{% static 'mainpage/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mainpage/css/main.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url("{% static 'mainpage/img/bg.png' %}");
+            background-size: cover;
+            font-family: 'SF Pro Display', sans-serif;
+        }
+    </style>
+    <title>Macshop - Qurilmalaringiz kafolatini tekshiring</title>
+</head>
+<body>
+<div class="container">
+    <div class="row d-flex align-content-sm-center justify-content-center vh-100">
+        <div class="col-lg-8 d-flex justify-content-center p-2">
+            <div class="main-bx glow-on-hover d-flex flex-column justify-content-around p-sm-5 text-center">
+                <div class="brand-logo pb-4">
+                    <img src="{% static 'mainpage/img/logo.png' %}" alt="Macshop logotipi" width="100">
+                </div>
+                <div class="head-text">
+                    Bizning <span class="span-text fw-bold">ijtimoiy tarmoq</span>dagi
+                    <br class="d-md-block d-none"> manzillarimiz
+                </div>
+                <p class="paragraph-text pt-4 mb-4">
+                    O’zingizni qiziqtirgan va qiynayotgan barcha savollaringizga
+                    <br class="no-br"> yechimni aynan ushbu linklar orqali hal qilishingiz mumkin
+                </p>
+                <div>
+                    <a href="https://instagram.com/macshop_uz?igshid=OGQ5ZDc2ODk2ZA==" class="link-btn btn">
+                        <div class="d-flex align-items-center">
+                            <i class='bx bxl-instagram-alt'></i>
+                            <span>Instagram</span>
+                        </div>
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                    <a href="https://t.me/macshop_uz/" class="link-btn btn">
+                        <div class="d-flex align-items-center">
+                            <i class='bx bxl-telegram pe-2'></i>
+                            <span>Telegram</span>
+                        </div>
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                    <a href="https://telegra.ph/Macshop-Nasiya-Savdo-09-21" class="link-btn btn">
+                        <div class="d-flex align-items-center">
+                            <i class='bx bxs-time'></i>
+                            <span>Nasiya Savdo</span>
+                        </div>
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                    <a href="{% url 'search' %}" class="link-btn btn">
+                        <div class="d-flex align-items-center">
+                            <i class='bx bxs-check-shield'></i>
+                            <span>Kafolat tekshirish</span>
+                        </div>
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                    <a href="https://instagram.com/macshop_uz?igshid=OGQ5ZDc2ODk2ZA==" class="link-btn btn">
+                        <div class="d-flex align-items-center">
+                            <i class='bx bxs-info-circle'></i>
+                            <span>Biz Haqimizda</span>
+                        </div>
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                </div>
+                <p class="paragraph-text pt-2 pb-0">Murojaat uchun telefon raqamlar</p>
+                <a href="tel:+998917979113" class="tap-btn text-dark">
+                    <span class="h3 fw-bold">+998 91 797 91 13</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'mainpage/js/bootstrap.bundle.min.js' %}" type="jscript"></script>
+</body>
+</html>

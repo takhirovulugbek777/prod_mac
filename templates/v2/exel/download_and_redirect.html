@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Downloading Excel - Product Management System{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h2 class="mb-0"><i class="fas fa-check-circle me-2"></i>Download Started</h2>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <div class="download-icon">
+                        <i class="fas fa-file-excel fa-5x text-success mb-3"></i>
+                    </div>
+                    <h3>Your Excel file is being downloaded</h3>
+                    <p>If the download doesn't start automatically, click the button below.</p>
+                </div>
+
+                <div class="mb-4">
+                    <a href="{{ file_url }}" class="btn btn-primary btn-lg" id="manual-download">
+                        <i class="fas fa-download me-2"></i>Download Excel
+                    </a>
+                </div>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>You will be redirected to the home page in <span
+                        id="countdown" class="fw-bold">5</span> seconds.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<style>
+    .download-icon {
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-20px);
+        }
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        // Start the download automatically
+        window.location.href = "{{ file_url }}";
+
+        // Countdown for redirect
+        let seconds = 5;
+        const countdownElement = $('#countdown');
+
+        const countdownInterval = setInterval(function () {
+            seconds--;
+            countdownElement.text(seconds);
+
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "{{ redirect_url }}";
+            }
+        }, 1000);
+
+        // If user clicks the manual download button, reset the countdown
+        $('#manual-download').click(function () {
+            seconds = 5;
+            countdownElement.text(seconds);
+        });
+    });
+</script>
+{% endblock %}
+{% else %}
+<script>
+    window.location.href = "{% url 'login' %}";
+</script>
+{% endif %}
+{% endblock %}

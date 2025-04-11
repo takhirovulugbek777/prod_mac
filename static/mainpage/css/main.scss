@@ -1,0 +1,143 @@
+* {
+  font-family: 'SF Pro Display', sans-serif;
+}
+
+
+body {
+  background: url("../img/bg.png");
+  background-size: cover;
+
+
+}
+
+
+.main-bx {
+  box-shadow: 0px 0px 10px #050943;
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 30px 20px;
+}
+
+.head-text {
+  font-size: 2rem;
+  line-height: normal;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: #606065;
+
+  .span-text {
+    color: #1D1D1F;
+  }
+}
+
+.paragraph-text {
+  font-size: 1rem;
+  line-height: normal;
+  letter-spacing: 0;
+  font-weight: normal;
+  color: #86868B;
+}
+
+.link-btn {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+
+  i:first-child {
+    padding-right: 0.5rem;
+  }
+
+  i:last-child {
+    color: #0a53be;
+  }
+
+  &:hover {
+    background: #0a53be !important;
+    color: white !important;
+
+    i:last-child {
+      color: white;
+    }
+  }
+}
+
+.contact-us {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .btn-contact {
+    font-size: 1.5rem;
+    background: #ffffff !important;
+    border-radius: 50px;
+    color: #353535;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+
+    &:hover {
+      background: #0a53be !important;
+      color: white !important;
+    }
+
+    i {
+      padding: 0 !important;
+    }
+  }
+}
+
+
+.kafolat-info {
+  max-width: 500px;
+
+  li {
+    margin-bottom: 20px;
+    list-style: none;
+  }
+}
+
+
+.kafolat {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 0 0 10px;
+  border-radius: 10px;
+
+
+  .head-text {
+    color: black;
+    font-weight: bolder;
+    font-size: 2rem;
+  }
+
+  ol {
+    color: #393939;
+    padding-left: 0 !important;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+
+    &, span {
+      font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono", "Droid Sans Mono", monospace, monospace;
+    }
+  }
+
+}
+
+
+//.no-br {
+//  display: none;
+//}
+
+
+

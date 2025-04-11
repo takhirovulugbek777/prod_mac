@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Product Management System{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="welcome-banner">
+            <h1><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h1>
+            <p class="lead">Welcome back, {{ user.username }}! Manage your products and clients from here.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3 class="feature-title">Products</h3>
+                    <p class="feature-description">Manage your product inventory, track warranty status, and more.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>View Products
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Clients</h3>
+                    <p class="feature-description">Manage client information and view their purchased products.</p>
+                    <a href="{% url 'client_list' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>View Clients
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <h3 class="feature-title">Reports</h3>
+                    <p class="feature-description">Export product data to Excel for reporting and analysis.</p>
+                    <a href="{% url 'exel_page' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>Export Data
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0"><i class="fas fa-chart-line me-2"></i>Quick Stats</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <div class="stats-value">{{ products_count|default:"0" }}</div>
+                                    <div class="stats-label">Total Products</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="stats-value">{{ clients_count|default:"0" }}</div>
+                                    <div class="stats-label">Total Clients</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stats-value">{{ active_warranty_count|default:"0" }}</div>
+                                    <div class="stats-label">Active Warranties</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-card">
+                                    <div class="stats-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="stats-value">{{ recent_products_count|default:"0" }}</div>
+                                    <div class="stats-label">Recent Products</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'product_create' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus-circle me-2"></i>Add New Product
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Action Button -->
+<a href="{% url 'product_create' %}" class="btn-floating">
+    <i class="fas fa-plus"></i>
+</a>
+{% else %}
+<script>
+    window.location.href = "{% url 'login' %}";
+</script>
+{% endif %}
+{% endblock %}

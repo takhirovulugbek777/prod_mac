@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Product Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">
+                    {% if 'Create' in title %}
+                    <i class="fas fa-plus-circle me-2"></i>
+                    {% else %}
+                    <i class="fas fa-edit me-2"></i>
+                    {% endif %}
+                    {{ title }}
+                </h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_name" class="form-label">Product Name</label>
+                            <input type="text" name="name" id="id_name"
+                                   class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                   value="{{ form.name.value|default:'' }}" required>
+                            {% if form.name.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="id_serial_number" class="form-label">Serial Number</label>
+                            <input type="text" name="serial_number" id="id_serial_number"
+                                   class="form-control {% if form.serial_number.errors %}is-invalid{% endif %}"
+                                   value="{{ form.serial_number.value|default:'' }}" required>
+                            {% if form.serial_number.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.serial_number.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_client_name" class="form-label">Client Name</label>
+                            <input type="text" name="client_name" id="id_client_name" class="form-control"
+                                   value="{{ client_name|default:'' }}" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="id_client_phone" class="form-label">Client Phone</label>
+                            <input type="text" name="client_phone" id="id_client_phone" class="form-control"
+                                   value="{{ client_phone|default:'' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_sold_date" class="form-label">Sold Date</label>
+                            <input type="date" name="sold_date" id="id_sold_date"
+                                   class="form-control {% if form.sold_date.errors %}is-invalid{% endif %}"
+                                   value="{{ form.sold_date.value|date:'Y-m-d'|default:'' }}" required>
+                            {% if form.sold_date.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.sold_date.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="id_warranty_period" class="form-label">Warranty Period (Months)</label>
+                            <input type="number" name="warranty_period" id="id_warranty_period"
+                                   class="form-control {% if form.warranty_period.errors %}is-invalid{% endif %}"
+                                   value="{{ form.warranty_period.value|default:'' }}" min="0" required>
+                            {% if form.warranty_period.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.warranty_period.errors %}
+                                {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'product_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to List
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Save Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+        // Auto-focus the first field
+        $('#id_name').focus();
+
+        // Client phone validation
+        $('#id_client_phone').on('input', function () {
+            let phone = $(this).val();
+            // Remove non-numeric characters
+            phone = phone.replace(/[^0-9+]/g, '');
+            $(this).val(phone);
+        });
+    });
+</script>
+{% endblock %}
+
+{% endblock %}
