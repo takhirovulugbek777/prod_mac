@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update the database settings to use the Docker service name
-sed -i "s/POSTGRES_HOST=localhost/POSTGRES_HOST=db/g" .env
+#sed -i "s/POSTGRES_HOST=localhost/POSTGRES_HOST=db/g" .env
 
 # Start Django with Gunicorn in the background
 echo "Starting Django with Gunicorn..."
