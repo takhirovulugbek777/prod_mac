@@ -87,11 +87,11 @@ async def get_amount(msg: Message, state: FSMContext):
                     calculations = data["calculations"]
 
                     response_message = f"✅ Hisob-kitob natijalari:\n\n"
-                    response_message += f"📊 Oldindan to'lov: {prepayment_amount} so'm\n"
-                    response_message += f"📊 Qolgan summa: {remaining_amount} so'm\n\n"
+                    response_message += f"📊 Oldindan to'lov: {prepayment_amount} $\n"
+                    response_message += f"📊 Qolgan summa: {remaining_amount} $\n\n"
                     response_message += "📅 To'lov rejalari:\n"
                     for calc in calculations:
-                        response_message += f"{calc['month']} oy: {calc['payment_per_month']} so'm\n"
+                        response_message += f"{calc['month']} oy: {calc['payment_per_month']} $\n"
 
                     # After showing results, clear the state and return to main menu
                     await msg.answer(response_message, reply_markup=main_menu_kb)
