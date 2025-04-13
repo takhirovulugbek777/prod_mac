@@ -13,7 +13,7 @@ async def main():
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher()
 
-    dp.message.middleware(ThrottleMiddleware(limit_seconds=1))
+    dp.message.middleware(ThrottleMiddleware(max_messages=3, per_seconds=1))
 
     dp.include_router(register.router)
     dp.include_router(info.router)
