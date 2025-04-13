@@ -55,12 +55,12 @@ class CreditCalculationAPIView(APIView):
                 monthly_payment = calculated_amount / credit_percentage.month
                 result.append({
                     'month': credit_percentage.month,
-                    'payment_per_month': round(monthly_payment, 0)
+                    'payment_per_month': int(round(monthly_payment))
                 })
 
             return Response({
-                "prepayment_amount": round(prepayment_amount, 0),
-                "remaining_amount": round(remaining_amount, 0),
+                "prepayment_amount": int(round(prepayment_amount)),
+                "remaining_amount": int(round(remaining_amount)),
                 "calculations": result
             }, status=status.HTTP_200_OK)
         except CreditCategory.DoesNotExist:
