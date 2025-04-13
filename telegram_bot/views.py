@@ -55,6 +55,7 @@ class CreditCalculationAPIView(APIView):
                 monthly_payment = calculated_amount / credit_percentage.month
                 result.append({
                     'month': credit_percentage.month,
+                    'persent': credit_percentage.persent,
                     'payment_per_month': int(round(monthly_payment))
                 })
 

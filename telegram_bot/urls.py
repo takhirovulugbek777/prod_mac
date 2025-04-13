@@ -9,4 +9,5 @@ urlpatterns = [
 
 urlpatterns += [
     path('usercreate/', TelegramUserCreateApiView.as_view()),
-    path('category/<int:cat_pk>/', CreditCalculationAPIView.as_view(), name='category-detail'), ]
+    path('category/<int:cat_pk>/', CreditCalculationAPIView.as_view(), name='category-detail'),
+]
