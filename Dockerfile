@@ -1,30 +1,29 @@
 FROM python:3.11-slim
 
-# Install PostgreSQL development libraries
+# Kerakli tizim kutubxonalarini o‘rnatish
 RUN apt-get update && apt-get install -y gcc libpq-dev
 
-# Set environment variables
+# Muhit o‘zgaruvchilari
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# Ishchi papkani sozlash
 WORKDIR /app
 
-# Install dependencies
+# Kutubxonalarni o‘rnatish
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
 
-# Copy project files
+# Kod fayllarini nusxalash
 COPY . .
 
-# Expose port 8000 (the port the Django app is running on)
+# Portni ochish (endi 8000-da ishlaydi)
 EXPOSE 8000
 
-# Create a script to run both Django and the bot
+# Kirish faylini qo‘shish
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Run the application using the entrypoint script
+# Kirish fayli orqali ishga tushirish
 ENTRYPOINT ["/entrypoint.sh"]
