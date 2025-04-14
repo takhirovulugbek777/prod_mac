@@ -72,6 +72,8 @@ services:
       - .env
     volumes:
       - .:/app
+      - ./staticfiles:/app/staticfiles   # BU QATORNI QO‘SHING
+      - ./media:/app/media
     depends_on:
       - db
     networks:
