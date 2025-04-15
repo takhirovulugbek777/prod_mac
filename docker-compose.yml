@@ -28,27 +28,23 @@ services:
       - db
     networks:
       - app_network
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+    networks:
+      - app_network
 
-#  nginx:
-#    build:
-#      context: ./nginx
-#      dockerfile: Dockerfile.nginx
-#    container_name: django_practise_nginx
-#    ports:
-#      - "8080:80"   # Expose Nginx on port 8080 of the host machine (mapped from port 80 inside the container)
-#      - "443:443"   # Expose port 443 for HTTPS (this should be configured for SSL)
-#    volumes:
-#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-#      - ./staticfiles:/app/staticfiles
-#      - ./media:/app/media
-#    depends_on:
-#      - web
-#    networks:
-#      - app_network
+volumes:
+  postgres_data:
 
 networks:
   app_network:
     driver: bridge
-
-volumes:
-  postgres_data:
