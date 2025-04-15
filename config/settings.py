@@ -15,13 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-for-dev')
 DEBUG = False
 
 # ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-ALLOWED_HOSTS = ['56.228.2.23', 'localhost', '127.0.0.1']
-
-CSRF_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = ['http://56.228.2.23']
-SESSION_COOKIE_SECURE = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'jazzmin',
