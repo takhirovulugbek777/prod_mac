@@ -56,21 +56,40 @@ async def get_amount(msg: Message, state: FSMContext):
         amount = float(msg.text)
         data = await state.get_data()
         category_id = data['category_id']
+        percent = data['percent']
 
-        api_url = f"{BASE_URL}/bot-api/category/{category_id}/?amount={amount}"
+        # 🔸 QQS ni olish uchun DB dan modelni olib kelamiz
+        from telegram_bot.models import CreditCategory
+        category = await sync_to_async(CreditCategory.objects.get)(id=category_id)
+        qqs_percent = category.qqs_persent
+
+        qqs_amount = amount * (qqs_percent / 100)
+        total_with_qqs = amount + qqs_amount
+
+        # 🔸 Asl summaga qarab oldindan to‘lov va qolgan summa hisoblaymiz
+        prepayment = amount * (percent / 100)
+        remaining_for_api = total_with_qqs - prepayment
+
+        # 🔸 APIdan hisob-kitobni olib kelamiz
+        api_url = f"{BASE_URL}/bot-api/category/{category_id}/?amount={remaining_for_api}"
         async with aiohttp.ClientSession() as session:
             async with session.get(api_url) as response:
                 data = await response.json()
 
                 if response.status == 200:
-                    await state.update_data(amount=amount, calculations=data)
+                    await state.update_data(
+                        amount=amount,
+                        calculations=data,
+                        qqs_amount=int(round(qqs_amount)),
+                        total_with_qqs=total_with_qqs,
+                        percent=percent
+                    )
 
-                    prepay = data["prepayment_amount"]
-                    remain = data["remaining_amount"]
                     msg_txt = (
                         f"✅ Hisob-kitob natijalari:\n\n"
-                        f"📊 Oldindan to'lov: {prepay} $\n"
-                        f"📊 Qolgan summa: {remain} $\n\n"
+
+                        f"📊 Oldindan to'lov ({percent}%): {int(round(prepayment))} $\n"
+                        f"📊 Qolgan summa: {int(round(amount - prepayment))} $\n\n"
                         f"🗕 To'lov rejalari:\n"
                     )
                     for calc in data["calculations"]:
@@ -111,26 +130,34 @@ async def handle_custom_prepayment(msg: Message, state: FSMContext):
     try:
         user_input = float(msg.text)
         data = await state.get_data()
-        total_amount = data['amount']
+        total_amount = data['amount']  # Asl summa
         percent = data['percent']
+        qqs_amount = data.get('qqs_amount', 0)
+        total_with_qqs = total_amount + qqs_amount
 
-        min_prepayment = total_amount * (percent / 100)
+        min_prepayment = total_with_qqs * (percent / 100)
         if user_input < min_prepayment:
             await msg.answer(
                 f"❌ Oldindan to‘lov {percent}% dan kam bo‘lmasligi kerak! Kamida {int(min_prepayment)} $ bo‘lishi kerak.")
             return
 
-        remaining = total_amount - user_input
+        # 🔹 Foydalanuvchiga ko‘rsatiladigan qolgan kredit summasi
+        display_remaining = total_amount - user_input
+
+        # 🔹 Backendga yuboriladigan, QQS bilan birga hisoblangan real qolgan summa
+        real_remaining = total_with_qqs - user_input
+
         percentages = data['calculations']['calculations']
 
         msg_txt = (
             f"✅ Hisob-kitob (yangi oldindan to'lov bilan):\n\n"
             f"📊 Oldindan to'lov: {int(user_input)} $\n"
-            f"📊 Qolgan summa: {int(remaining)} $\n\n"
+            f"📊 Qolgan summa: {int(display_remaining)} $\n\n"
             f"🗕 To'lov rejalari:\n"
         )
+
         for calc in percentages:
-            total_payment = remaining * (1 + calc['persent'] / 100)
+            total_payment = real_remaining * (1 + calc['persent'] / 100)
             per_month = total_payment / calc['month']
             msg_txt += f"{calc['month']} oy: {int(round(per_month))} $\n"
 

@@ -33,6 +33,7 @@ class Text(models.Model):
 class CreditCategory(models.Model):
     title = models.CharField(max_length=100)
     prepayment_persentage = models.IntegerField()
+    qqs_persent = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
