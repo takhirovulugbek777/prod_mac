@@ -37,16 +37,13 @@ class CreditCalculationAPIView(APIView):
 
     def get(self, request, cat_pk, *args, **kwargs):
         try:
-            input_amount = float(request.query_params.get('amount', 0))
+            remaining_amount = float(request.query_params.get('amount', 0))
 
-            if input_amount <= 0:
+            if remaining_amount <= 0:
                 return Response({"error": "Input amount must be greater than zero."},
                                 status=status.HTTP_400_BAD_REQUEST)
 
             credit_category = CreditCategory.objects.get(id=cat_pk)
-            prepayment_amount = input_amount * (credit_category.prepayment_persentage / 100)
-            remaining_amount = input_amount - prepayment_amount
-
             credit_percentages = CreditPercentage.objects.filter(category=credit_category)
 
             result = []
@@ -60,10 +57,10 @@ class CreditCalculationAPIView(APIView):
                 })
 
             return Response({
-                "prepayment_amount": int(round(prepayment_amount)),
                 "remaining_amount": int(round(remaining_amount)),
                 "calculations": result
             }, status=status.HTTP_200_OK)
+
         except CreditCategory.DoesNotExist:
             return Response({"error": "Credit category not found."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:

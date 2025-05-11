@@ -90,10 +90,13 @@ async def get_amount(msg: Message, state: FSMContext):
 
                         f"📊 Oldindan to'lov ({percent}%): {int(round(prepayment))} $\n"
                         f"📊 Qolgan summa: {int(round(amount - prepayment))} $\n\n"
-                        f"🗕 To'lov rejalari:\n"
+                        f"To'lov rejalari:\n"
+                        "<pre>"
                     )
+
                     for calc in data["calculations"]:
-                        msg_txt += f"{calc['month']} oy: {calc['payment_per_month']} $\n"
+                        msg_txt += f"{calc['month']} oy - {calc['payment_per_month']} $\n"
+                    msg_txt += "</pre>"
 
                     kb = ReplyKeyboardMarkup(
                         keyboard=[
@@ -102,7 +105,7 @@ async def get_amount(msg: Message, state: FSMContext):
                         ],
                         resize_keyboard=True
                     )
-                    await msg.answer(msg_txt, reply_markup=kb)
+                    await msg.answer(msg_txt, reply_markup=kb, parse_mode="HTML")
                     await state.set_state(Form.prepayment_amount)
                 else:
                     await msg.answer("❌ Xatolik yuz berdi. Qayta urinib ko‘ring.", reply_markup=back_kb)
@@ -130,39 +133,56 @@ async def handle_custom_prepayment(msg: Message, state: FSMContext):
     try:
         user_input = float(msg.text)
         data = await state.get_data()
-        total_amount = data['amount']  # Asl summa
+        total_amount = data['amount']  # Kredit summasi (QQS bo‘lmasdan)
         percent = data['percent']
         qqs_amount = data.get('qqs_amount', 0)
         total_with_qqs = total_amount + qqs_amount
 
         min_prepayment = total_with_qqs * (percent / 100)
-        if user_input < min_prepayment:
-            await msg.answer(
-                f"❌ Oldindan to‘lov {percent}% dan kam bo‘lmasligi kerak! Kamida {int(min_prepayment)} $ bo‘lishi kerak.")
+
+        # ✅ Validatsiyalar:
+        if total_amount <= 0:
+            await msg.answer("❌ Kredit summasi hali kiritilmagan yoki noto‘g‘ri.")
             return
 
-        # 🔹 Foydalanuvchiga ko‘rsatiladigan qolgan kredit summasi
-        display_remaining = total_amount - user_input
+        if user_input <= 0:
+            await msg.answer("❌ Oldindan to‘lov 0 dan katta bo‘lishi kerak!")
+            return
 
-        # 🔹 Backendga yuboriladigan, QQS bilan birga hisoblangan real qolgan summa
-        real_remaining = total_with_qqs - user_input
+        if user_input < min_prepayment:
+            await msg.answer(
+                f"❌ Oldindan to‘lov {percent}% dan kam bo‘lmasligi kerak! "
+                f"Kamida {int(min_prepayment)} $ bo‘lishi kerak."
+            )
+            return
+
+        if user_input >= total_amount:
+            await msg.answer(
+                f"❌ Oldindan to‘lov kredit summasidan ({int(total_amount)} $) ko‘p bo‘lishi mumkin emas."
+            )
+            return
+
+        # 🔹 Hisoblash
+        display_remaining = total_amount - user_input  # Foydalanuvchiga ko‘rsatiladigan qolgan summa
+        real_remaining = total_with_qqs - user_input  # Backend uchun haqiqiy summa (QQS bilan)
 
         percentages = data['calculations']['calculations']
 
         msg_txt = (
-            f"✅ Hisob-kitob (yangi oldindan to'lov bilan):\n\n"
-            f"📊 Oldindan to'lov: {int(user_input)} $\n"
+            f"✅ Hisob-kitob (yangi oldindan to‘lov bilan):\n\n"
+            f"📊 Oldindan to‘lov: {int(user_input)} $\n"
             f"📊 Qolgan summa: {int(display_remaining)} $\n\n"
-            f"🗕 To'lov rejalari:\n"
+            f"To‘lov rejalari:\n"
+            "<pre>"
         )
 
         for calc in percentages:
             total_payment = real_remaining * (1 + calc['persent'] / 100)
             per_month = total_payment / calc['month']
             msg_txt += f"{calc['month']} oy: {int(round(per_month))} $\n"
-
-        await msg.answer(msg_txt, reply_markup=main_menu_kb)
+        msg_txt += "</pre>"
+        await msg.answer(msg_txt, reply_markup=main_menu_kb, parse_mode="HTML")
         await state.clear()
 
     except ValueError:
-        await msg.answer("❌ Iltimos, raqam kiriting (masalan: 150000)", reply_markup=back_kb)
+        await msg.answer("❌ Iltimos, faqat raqam kiriting (masalan: 150000)", reply_markup=back_kb)
