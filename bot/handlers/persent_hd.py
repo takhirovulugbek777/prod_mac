@@ -86,16 +86,12 @@ async def get_amount(msg: Message, state: FSMContext):
                     )
 
                     msg_txt = (
-                        f"✅ Hisob-kitob natijalari:\n\n"
-
-                        f"📊 Oldindan to'lov ({percent}%): {int(round(prepayment))} $\n"
-                        f"📊 Qolgan summa: {int(round(amount - prepayment))} $\n\n"
-                        f"To'lov rejalari:\n"
                         "<pre>"
+                        f"Birinchi to`lov: ${int(round(prepayment))}\n"
                     )
 
                     for calc in data["calculations"]:
-                        msg_txt += f"{calc['month']} oy - {calc['payment_per_month']} $\n"
+                        msg_txt += f"{calc['month']} oy ga: ${calc['payment_per_month']}\n"
                     msg_txt += "</pre>"
 
                     kb = ReplyKeyboardMarkup(
@@ -169,17 +165,15 @@ async def handle_custom_prepayment(msg: Message, state: FSMContext):
         percentages = data['calculations']['calculations']
 
         msg_txt = (
-            f"✅ Hisob-kitob (yangi oldindan to‘lov bilan):\n\n"
-            f"📊 Oldindan to‘lov: {int(user_input)} $\n"
-            f"📊 Qolgan summa: {int(display_remaining)} $\n\n"
-            f"To‘lov rejalari:\n"
+
             "<pre>"
+            f"Birinchi to`lov: {int(user_input)} $\n\n"
         )
 
         for calc in percentages:
             total_payment = real_remaining * (1 + calc['persent'] / 100)
             per_month = total_payment / calc['month']
-            msg_txt += f"{calc['month']} oy: {int(round(per_month))} $\n"
+            msg_txt += f"{calc['month']} oy ga: ${int(round(per_month))} \n"
         msg_txt += "</pre>"
         await msg.answer(msg_txt, reply_markup=main_menu_kb, parse_mode="HTML")
         await state.clear()
