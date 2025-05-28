@@ -52,7 +52,7 @@ async def send_db_backup():
 
         bot = Bot(token=BOT_TOKEN)
         await bot.send_document(
-            chat_id="@backup_zamat_mac",
+            chat_id="-1002547208302",
             document=BufferedInputFile(file_bytes.read(), filename=file_name),
             caption=f"📦 {db_name} bazasining to‘liq SQL backup fayli\n🕒 {timestamp}"
         )
